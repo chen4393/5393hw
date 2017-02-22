@@ -2,8 +2,8 @@
 // file           | aleae_main.cc
 // procedure(s)   | main
 // project        | Probabilistic Analysis of Chemical Reactions (Bio Ludo Aleae)
-// author(s)      | Marc Riedel 
-// affiliation(s) | Electrical and Computer Engineering, University of Minnesota 
+// author(s)      | Marc Riedel
+// affiliation(s) | Electrical and Computer Engineering, University of Minnesota
 // created        | 2006/01/11
 // modified       | 2006/01/11
 // copyright      | University of Minnesota (c) 2006
@@ -11,11 +11,11 @@
 
 # include "aleae.h"
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
    // -------------------------------------------------------------------------------------------------------------
    // description  | Reads initial state and reactions from files. Launches analysis
-   // calls        | aleae_initial_in, aleae_reactions_in, aleae_initial_out, aleae_reaction_out, 
+   // calls        | aleae_initial_in, aleae_reactions_in, aleae_initial_out, aleae_reaction_out,
    //              | aleae_stoch
    // called by    | command line
    // -------------------------------------------------------------------------------------------------------------
@@ -23,34 +23,34 @@ int main(int argc, char **argv)
    if (argc < 7 || argc > 7) {
       cerr << "usage: " << argv[0] << " <file1: state> <file2: reactions> <trials> <time> <verbosity> <output file>" << endl;
       exit(1);
-   } 
+   }
 
    ifstream file1(argv[1]);
    if (!file1) {
       cerr << "could not open file " << argv[1] << endl;
       exit(1);
-   } 
+   }
 
    ifstream file2(argv[2]);
    if (!file2) {
       cerr << "could not open file " << argv[2] << endl;
       exit(1);
-   } 
+   }
 
 	ofstream out;
 	out.open(argv[6]);
 	if (!out) {
-		cerr << "could not open file " << "test.out" << endl;
+		cerr << "could not open file " << argv[6] << endl;
       exit(1);
 	}
-	
+
    // ---------------------------------------------------------------------------------------------
    // read names, initial state, thresholds and reactions
    // ---------------------------------------------------------------------------------------------
-   
+
    vector<unsigned> S;     // initial state
    biocr_t          biocr;
-   
+
    if (!aleae_initial_in(file1, biocr.N, S, biocr.T)) {
       cerr << "error reading initial state from file " << argv[1] << endl;
       exit(1);
@@ -89,58 +89,58 @@ int main(int argc, char **argv)
    param.print   = atoi(argv[5]);
 
    // for each trial
-   vector<unsigned> A(S.size()); 
+   vector<unsigned> A(S.size());
    for (unsigned n = 0; n < trials; n++) {
-      
+
       if (param.print & PRINT_TRIALS) {
             out << "trial " << n << endl;
       }
       struct timeval start2;
       gettimeofday(&start2, NULL);
-            
+
       vector<unsigned> I = S;
       stats.event_ct     = 0;
       stats.time         = 0;
-            
+
       // ---------------------------------------------------------------------------------------
       // generate a trajectory
       // ---------------------------------------------------------------------------------------
-            
-      aleae_stoch(biocr, param, I, stats);
-            
+
+      aleae_stoch(biocr, param, I, stats, out);
+
       // collect statistics
       event_ct += stats.event_ct;
       time     += stats.time;
-            
+
       for (unsigned i = 0; i < A.size(); i++) {
          A[i] += I[i];
       }
-            
+
       if (param.print & PRINT_TRIALS) {
          out << "trial stats:" << endl;
       }
       for (unsigned i = 0; i < T.size(); i++) {
          switch(T[i].c) {
          case THRESH_LT:
-           if (I[T[i].i] < T[i].t) { 
+           if (I[T[i].i] < T[i].t) {
              if (param.print & PRINT_TRIALS) out <<  N[T[i].i] << " < " << T[i].t << endl;
              F[i]++;
            }
            break;
          case THRESH_LE:
-           if (I[T[i].i] <= T[i].t) { 
+           if (I[T[i].i] <= T[i].t) {
              if (param.print & PRINT_TRIALS) out <<  N[T[i].i] << " <= " << T[i].t << endl;
              F[i]++;
            }
            break;
          case THRESH_GE:
-           if (I[T[i].i] >= T[i].t) { 
+           if (I[T[i].i] >= T[i].t) {
              if (param.print & PRINT_TRIALS) out <<  N[T[i].i] << " >= " << T[i].t << endl;
              F[i]++;
            }
            break;
          case THRESH_GT:
-           if (I[T[i].i] > T[i].t) { 
+           if (I[T[i].i] > T[i].t) {
              if (param.print & PRINT_TRIALS) out <<  N[T[i].i] << " > " << T[i].t << endl;
              F[i]++;
            }
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
          default:
            out << "error: invalid threshold code" << endl;
            exit(1);
-         }  
+         }
       }
       if (param.print & PRINT_TRIALS) {
          out << "events  " << stats.event_ct  << endl;
@@ -162,9 +162,9 @@ int main(int argc, char **argv)
          if (n < trials - 1) out << endl;
       }
    }
-         
+
    // ------------------------------------------------------------------------------------------
-      
+
    out << endl << "simulation stats:" << endl;
    out << "avg ";
    out << "[";
@@ -191,7 +191,7 @@ int main(int argc, char **argv)
       default:
          out << "error: invalid threshold code" << endl;
          exit(1);
-      }  
+      }
       out  << T[i].t << ": " <<  F[i] << " (" << (F[i]/(double)trials)*100 << "%)" << endl;
    }
    struct timeval end1;

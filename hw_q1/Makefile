@@ -39,7 +39,7 @@ ALEAE_OBJS		= aleae_io.o		  \
 # -----------------------------------------------------------------------------
 # default target
 
-all: aleae
+all: aleae CalculateVariance
 
 # -----------------------------------------------------------------------------
 # build programs
@@ -57,8 +57,11 @@ aleae-g:
 aleae-pg: 
 	${MAKE} 'CFLAGS=$(CFLAGS-pg)' aleae
 
+CalculateVariance:
+	$(CC) CalculateVariance.cc -o CalculateVariance
+
 # -----------------------------------------------------------------------------
 # clean
 
 clean: 
-	rm -f *.o aleae *.out
+	rm -f *.o aleae *.out CalculateVariance

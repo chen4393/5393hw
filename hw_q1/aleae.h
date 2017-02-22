@@ -1,9 +1,9 @@
 // -----------------------------------------------------------------------------------------------------------------
 // file           | aleae.h
-// description    | main header file 
+// description    | main header file
 // project        | Probabilistic Analysis of Chemical Reactions (Bio Ludo Aleae)
-// author(s)      | Marc Riedel 
-// affiliation(s) | Electrical and Computer Engineering, University of Minnesota 
+// author(s)      | Marc Riedel
+// affiliation(s) | Electrical and Computer Engineering, University of Minnesota
 // created        | 2006/01/11
 // modified       | 2006/01/11
 // copyright      | University of Minnesota (c) 2006
@@ -36,7 +36,7 @@
 # include <assert.h>
 
 using namespace std;
- 
+
 // ------------------------------------------------------------------------------------------------
 // includes
 
@@ -51,7 +51,7 @@ using namespace std;
 // classes
 
 // a chemical reaction
-class react_t 
+class react_t
 {
    // e.g., given react = [[1,  3], [6,  2]],
    //       the reactants are 3 molecules of type 1 and 2 of type 6
@@ -59,8 +59,8 @@ class react_t
    //       3 molecules of type 1 are consumed and 2 molecules of type 3 are produced in the reaction.
 
 public:
-   vector< pair<unsigned, unsigned> > react;  // types and quantities of reactants 
-   vector< pair<unsigned, int     > > delta;  // types and change 
+   vector< pair<unsigned, unsigned> > react;  // types and quantities of reactants
+   vector< pair<unsigned, int     > > delta;  // types and change
    vector< unsigned                 > depend; // reactions that depend on types modified by this one
    double                             rate;   // rate constant
 };
@@ -72,16 +72,16 @@ public:
 # define THRESH_GT 3
 
 // a threshold (N.B. should generalize this to a discrete-valued function on the state)
-class thresh_t 
+class thresh_t
 {
 public:
    unsigned i; // type
    unsigned t; // threshold
-   unsigned c; // code 
+   unsigned c; // code
 };
 
 // a set of chemical reactions and thresholds
-class biocr_t 
+class biocr_t
 {
 public:
    vector<string>   N; // names
@@ -93,12 +93,12 @@ public:
 // stoch
 
 // bit-field for verbosity
-# define PRINT_TRIALS     1   
-# define PRINT_TERMINAL   2   
-# define PRINT_TRACE      4 
-# define PRINT_STATES     8 
+# define PRINT_TRIALS     1
+# define PRINT_TERMINAL   2
+# define PRINT_TRACE      4
+# define PRINT_STATES     8
 
-// simulation parameters 
+// simulation parameters
 class stoch_param_t
 {
 public:
@@ -121,16 +121,16 @@ public:
 // ------------------------------------------------------------------------------------------------
 // procedure declarations
 
-bool                                         
+bool
 aleae_initial_in(ifstream           &file,
-                 vector  <string  > &N, 
-                 vector  <unsigned> &S, 
+                 vector  <string  > &N,
+                 vector  <unsigned> &S,
                  vector  <thresh_t> &T);
 
-bool                                         
-aleae_reactions_in(      ifstream        &file, 
+bool
+aleae_reactions_in(      ifstream        &file,
                          vector<react_t> &R,
-                   const vector<string > &N);   
+                   const vector<string > &N);
 void
 aleae_initial_out(const vector<string  > &N,
                   const vector<unsigned> &S,
@@ -143,15 +143,16 @@ ostream &operator<<(ostream &os, const vector<unsigned> &S);
 void
 aleae_reactions_out(const vector<string > &N,
                     const vector<react_t> &R,
-                    ofstream &out); 
+                    ofstream &out);
 
 // ----------------------------------------------------------------------------------------------------------------
 
 void
-aleae_stoch(const biocr_t        biocr, 
-            const stoch_param_t  param, 
-                                 vector<unsigned> &S,     
-                                 stoch_stats_t    &stats); 
+aleae_stoch(const biocr_t        biocr,
+            const stoch_param_t  param,
+                                 vector<unsigned> &S,
+                                 stoch_stats_t    &stats,
+                                 ofstream &out); 
 
 // ------------------------------------------------------------------------------------------------
 

@@ -2,8 +2,8 @@
 // file           | aleae_io.cc
 // procedure(s)   | aleae_state_in, aleae_reaction_in, aleae_reaction_out, operator<<(vector<unsigned))
 // project        | Probabilistic Analysis of Chemical Reactions (Bio Ludo Aleae)
-// author(s)      | Marc Riedel 
-// affiliation(s) | Electrical and Computer Engineering, University of Minnesota 
+// author(s)      | Marc Riedel
+// affiliation(s) | Electrical and Computer Engineering, University of Minnesota
 // created        | 2006/01/11
 // modified       | 2006/01/11
 // copyright      | University of Minnesota (c) 2006
@@ -19,9 +19,9 @@
 
 bool                                       // true on success, false on error
 aleae_initial_in(ifstream           &file, // input file
-                 vector  <string  > &N,    // returns names 
-                 vector  <unsigned> &S,    // returns quantities 
-                 vector  <thresh_t> &T)    // returns thresholds 
+                 vector  <string  > &N,    // returns names
+                 vector  <unsigned> &S,    // returns quantities
+                 vector  <thresh_t> &T)    // returns thresholds
 {
    // Each line specifies the name, quantity and threshold for a molecular type
    // The format is
@@ -50,7 +50,7 @@ aleae_initial_in(ifstream           &file, // input file
             if (file >> tmp2) {
 
                // quantity
-               S.push_back(tmp2); 
+               S.push_back(tmp2);
 
                string tmp3;
                if (file >> tmp3) {
@@ -80,7 +80,7 @@ aleae_initial_in(ifstream           &file, // input file
                      } else {
                         error = true;
                      }
-                  } 
+                  }
                }
             } else {
                error = true;
@@ -90,7 +90,7 @@ aleae_initial_in(ifstream           &file, // input file
       } else {
          done = true;
       }
-   
+
    }
    return !error;
 }
@@ -112,19 +112,19 @@ aleae_reactions_in(ifstream              &file, // input file
    //    <type> <quantity>
    // For example
    //    a 1 b 1 : c 2 : 0.5
-   
+
    char text[MAXLINE];
    bool error = false;
    unsigned  count = 0;
 
    vector< vector<unsigned> > depend;
-   
+
    // for each reaction
    while(!error && file.getline(text, MAXLINE)) {
 
       istringstream stream(text);
       react_t reaction;
-      
+
       // reactants
       bool done  = false;
       while(!error && !done) {
@@ -158,7 +158,7 @@ aleae_reactions_in(ifstream              &file, // input file
                   } else {
                      cerr << "error reading reaction " << count << endl;
                      error = true;
-                  } 
+                  }
                }
             }
 
@@ -167,7 +167,7 @@ aleae_reactions_in(ifstream              &file, // input file
             error = true;
          }
       }
-      
+
       // products
       done = false;
       while(!error && !done) {
@@ -216,16 +216,16 @@ aleae_reactions_in(ifstream              &file, // input file
                   } else {
                      cerr << "error reading product in reaction " << count << endl;
                      error = true;
-                  } 
+                  }
                }
-            } 
+            }
 
          } else {
             cerr << "error reading product in reaction " << count << endl;
             error = true;
          }
       }
-      
+
       // rate constant
       if (!error) {
          if (!(stream >> reaction.rate)) {
@@ -274,7 +274,7 @@ aleae_reactions_in(ifstream              &file, // input file
 }
 
 // ----------------------------------------------------------------------------------------------------------------
-// description  | prints molecular types, initial quantities and thresholds 
+// description  | prints molecular types, initial quantities and thresholds
 // calls        | nothing
 // called by    | main, aleae_stoch
 // ----------------------------------------------------------------------------------------------------------------
@@ -283,7 +283,7 @@ void
 aleae_initial_out(const vector<string  > &N, // names of molecular types
                   const vector<unsigned> &S, // state
                   const vector<thresh_t> &T,
-                  ofstream &out) // thresholds 
+                  ofstream &out) // thresholds
 {
    for (unsigned i = 0; i < N.size(); i++) {
       out << N[i] << " " << S[i] << " ";
@@ -305,7 +305,7 @@ aleae_initial_out(const vector<string  > &N, // names of molecular types
            default:
               out << "error: invalid thresshold code" << endl;
               exit(1);
-            }   
+            }
            out << T[j].t << ") ";
          }
       }
@@ -326,7 +326,7 @@ ostream &operator<<(ostream &os, const vector<unsigned> &S)
       os << setw(2) << S[k];
       if (k < S.size() - 1) os << ", ";
    }
-   cout << "]";
+   os << "]";
    return os;
 }
 
@@ -361,4 +361,3 @@ aleae_reactions_out(const vector<string > &N, // names of molecular types
       out << endl;
    }
 }
-
