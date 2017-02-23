@@ -10,30 +10,16 @@ where <file1>     contains the name, initial quantity and threshold for each mol
 <verbosity> specifies how detailed the output should be; choose a number between 0 and 15, inclusive.
 <output file> the output file specified by the user
 
-1. Question 1
-Input files: 1. p1.in(initial state and conditions for the probabilities we need to find) 
-		2.p1.r(reaction definitions)
-Output file: question_a.out (or any filename specified by user)
+Input files: 1. test.in(initial state and conditions for the probabilities we need to find) 
+		2.test.r(reaction definitions)
+Output file: test.out (or any filename specified by user)
 
-sample command: > ./aleae p1.in p1.r 1000 100 0 p1.out
+sample command: > ./aleae test.in test.r 1000 100 0 test.out
 
 Test steps:
 1. make clean
 2. make
 3. pass the following command 
-> ./aleae p1.in p1.r 1000 100 0 p1.out
+> ./aleae test.in test.r 1000 100 0 test.out
 to the command line
-4. check the p1.out generated
-
-2. Question 2
-Input files: 1. p2.in 2. p2.r
-Output file: p2.out
-
-Test steps:
-
-1. make clean
-2. make
-3. pass the following command 
-> ./aleae p2.in p2.r 1000 100 0 p2.out 
-to the command line
-4. check mean and variance from the p2.out
+4. check the test.out generated
