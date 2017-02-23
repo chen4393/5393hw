@@ -13,15 +13,15 @@ where <file1>     contains the name, initial quantity and threshold for each mol
 1. Question 1
 Input files: 1. p1.in(initial state and conditions for the probabilities we need to find) 
 		2.p1.r(reaction definitions)
-Output file: question_a.out (or any filename specified by user)
+Output file: p1.out (or any filename specified by user)
 
-sample command: > ./aleae p1.in p1.r 1000 100 0 p1.out
+sample command: > ./aleae p1.in p1.r 10 10000 0 p1.out
 
 Test steps:
 1. make clean
 2. make
 3. pass the following command 
-> ./aleae p1.in p1.r 1000 100 0 p1.out
+> ./aleae p1.in p1.r 10 10000 0 p1.out
 to the command line
 4. check the p1.out generated
 
@@ -34,6 +34,6 @@ Test steps:
 1. make clean
 2. make
 3. pass the following command 
-> ./aleae p2.in p2.r 1000 100 0 p2.out 
+> ./aleae p2.in p2.r 17 1e9 0 p2.out 
 to the command line
 4. check mean and variance from the p2.out
