@@ -10,9 +10,9 @@ where <file1>     contains the name, initial quantity and threshold for each mol
 <verbosity> specifies how detailed the output should be; choose a number between 0 and 15, inclusive.
 <output file> the output file specified by the user
 
-1. Question A
-Input files: 1. question_a.in(initial state and conditions for the probabilities we need to find) 
-		2.question_a.r(reaction definitions)
+1. Question 1
+Input files: 1. p1.in(initial state and conditions for the probabilities we need to find) 
+		2.p1.r(reaction definitions)
 Output file: question_a.out (or any filename specified by user)
 
 sample command: > ./aleae p1.in p1.r 1000 100 0 p1.out
@@ -25,18 +25,15 @@ Test steps:
 to the command line
 4. check the p1.out generated
 
-2. Question B
-Input files: 1. question_b.in 2. question_b.r
-Output file: temp.out(temporary output, variance to be computed)
+2. Question 2
+Input files: 1. p2.in 2. p2.r
+Output file: p2.out
 
 Test steps:
 
 1. make clean
 2. make
 3. pass the following command 
-> ./aleae question_b.in question_b.r 1000 0.0114 8 temp.out 
+> ./aleae p2.in p2.r 1000 100 0 p2.out 
 to the command line
-4. pass another command 
-> ./CalculateVariance temp.out 
-and execute, a new file called question_b.out has been generated
-5. check mean and variance from the question_b.out
+4. check mean and variance from the p2.out
